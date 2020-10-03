@@ -2,6 +2,8 @@ class chessController{
 
     constructor(){
 
+        this._audio = new Audio('toc.mpeg');
+        
         this._peaP = '&#9823'; 
         this._torP = '&#9820';
         this._cavP = '&#9822';
@@ -101,7 +103,11 @@ class chessController{
        return (value.indexOf('l2') > -1 || value.indexOf('l7') > -1);
     }
 
-
+    playAudio(){
+            
+        this._audio.currentTime = 0;
+        this._audio.play();        
+    }
 
     clicarPecas(){
 
@@ -133,8 +139,9 @@ class chessController{
 
                     this._primeiroClick = "";
 
-                }
+                    this.playAudio();
 
+                }
             
             });
 
