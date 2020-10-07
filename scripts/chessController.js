@@ -4,6 +4,7 @@ class chessController{
 
         this._audio = new Audio('toc.mpeg');
         
+        /*
         this._peaP = '&#9823'; 
         this._torP = '&#9820';
         this._cavP = '&#9822';
@@ -17,10 +18,29 @@ class chessController{
         this._bisB = '&#9815';
         this._raiB = '&#9813';
         this._reiB = '&#9812';
+        */
+      
+        this._peaP = "♟"; 
+        this._torP = "♜";
+        this._cavP = "♞";
+        this._bisP = "♝";
+        this._raiP = "♛";
+        this._reiP = "♚";
+        
+        this._peaB = "♙"; 
+        this._torB = "♖"; 
+        this._cavB = "♘";
+        this._bisB = "♗";
+        this._raiB = "♕";
+        this._reiB = "♔";
 
+        this._black  = [this._peaP,this._cavP,this._bisP,this._torP,this._raiP,this._reiP];
+        this._white = [this._peaB,this._cavB,this._bisB,this._torB,this._raiB,this._reiB];
+        
         this._primeiroClick = "";
         this._segundoClick = "";
         this._pecaEscolhida = "";
+        this._corPecaEscolhida = "";
 
         this.iniciarJogo();
         this.clicarPecas();
@@ -35,7 +55,7 @@ class chessController{
            
             if(this.linhaPeao(item.id)){
                 
-                document.getElementById(item.id).innerHTML = this._peaB;
+                document.getElementById(item.id).textContent = this._peaB;
 
             }else{
 
@@ -43,21 +63,21 @@ class chessController{
 
                     case 'l1c1':
                     case 'l1c8':
-                        document.getElementById(item.id).innerHTML = this._torB;
+                        document.getElementById(item.id).textContent = this._torB;
                         break;
                     case 'l1c2':
                     case 'l1c7':
-                        document.getElementById(item.id).innerHTML = this._cavB;
+                        document.getElementById(item.id).textContent = this._cavB;
                         break;
                     case 'l1c3':
                     case 'l1c6':
-                        document.getElementById(item.id).innerHTML = this._bisB;
+                        document.getElementById(item.id).textContent = this._bisB;
                         break;
                     case 'l1c4':
-                        document.getElementById(item.id).innerHTML = this._raiB;
+                        document.getElementById(item.id).textContent = this._raiB;
                         break;
                     case 'l1c5':
-                        document.getElementById(item.id).innerHTML = this._reiB;
+                        document.getElementById(item.id).textContent = this._reiB;
                 }
             };
         });
@@ -68,7 +88,7 @@ class chessController{
             
             if(this.linhaPeao(item.id)){
                 
-                document.getElementById(item.id).innerHTML = this._peaP;
+                document.getElementById(item.id).textContent = this._peaP;
 
             }else{
 
@@ -76,21 +96,21 @@ class chessController{
 
                     case 'l8c1':
                     case 'l8c8':
-                        document.getElementById(item.id).innerHTML = this._torP;
+                        document.getElementById(item.id).textContent = this._torP;
                         break;
                     case 'l8c2':
                     case 'l8c7':
-                        document.getElementById(item.id).innerHTML = this._cavP;
+                        document.getElementById(item.id).textContent = this._cavP;
                         break;
                     case 'l8c3':
                     case 'l8c6':
-                        document.getElementById(item.id).innerHTML = this._bisP;
+                        document.getElementById(item.id).textContent = this._bisP;
                         break;
                     case 'l8c4':
-                        document.getElementById(item.id).innerHTML = this._raiP;
+                        document.getElementById(item.id).textContent = this._raiP;
                         break;
                     case 'l8c5':
-                        document.getElementById(item.id).innerHTML = this._reiP;
+                        document.getElementById(item.id).textContent = this._reiP;
                         break;
 
                 }
@@ -109,6 +129,17 @@ class chessController{
         this._audio.play();        
     }
 
+    corPeca(value){
+        if(this._black.indexOf(value)> -1){
+            return "preta";
+        }else if(this._white.indexOf(value)> -1){
+            return "branca";
+        }else{
+            return "cor não encontrada";
+        }
+    }
+
+   
     clicarPecas(){
 
         let pecas = document.querySelectorAll("#l1 > div, #l2 > div, #l3 > div, #l4 > div, #l5 > div, #l6 > div, #l7 > div, #l8 > div");
@@ -122,24 +153,28 @@ class chessController{
                     this._primeiroClick = pc.id;
 
                     document.getElementById(this._primeiroClick).style.fontSize = "9vh";
+                    
+                    this._pecaEscolhida = document.getElementById(this._primeiroClick).textContent;
 
-                    this._pecaEscolhida = document.getElementById(this._primeiroClick).innerHTML;
-
-                    console.log("pecaEscolhida = ",this._pecaEscolhida);
+                    this._corPecaEscolhida = this.corPeca(this._pecaEscolhida);
 
                 } else{
 
                     this._segundoClick = pc.id;
 
-                    console.log("segundoClick",this._segundoClick);
-                    
-                    document.getElementById(this._primeiroClick).style.fontSize = "7vh";
-                    document.getElementById(this._primeiroClick).innerHTML = "";
-                    document.getElementById(this._segundoClick).innerHTML = this._pecaEscolhida;
+                    if(this._corPecaEscolhida == this.corPeca(document.getElementById(this._segundoClick).textContent)){
 
-                    this._primeiroClick = "";
+                        document.getElementById(this._primeiroClick).style.fontSize = "7vh";
 
-                    this.playAudio();
+                    }else{
+
+                        document.getElementById(this._primeiroClick).style.fontSize = "7vh";
+                        document.getElementById(this._primeiroClick).innerHTML = "";
+                        document.getElementById(this._segundoClick).innerHTML = this._pecaEscolhida;
+                        this.playAudio();
+                    }                 
+
+                    this._primeiroClick = "";                  
 
                 }
             
