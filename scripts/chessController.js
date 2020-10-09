@@ -3,23 +3,7 @@ class chessController{
     constructor(){
 
         this._audio = new Audio('toc.mpeg');
-        
-        /*
-        this._peaP = '&#9823'; 
-        this._torP = '&#9820';
-        this._cavP = '&#9822';
-        this._bisP = '&#9821';
-        this._raiP = '&#9819';
-        this._reiP = '&#9818';
-
-        this._peaB = '&#9817'; 
-        this._torB = '&#9814'; 
-        this._cavB = '&#9816';
-        this._bisB = '&#9815';
-        this._raiB = '&#9813';
-        this._reiB = '&#9812';
-        */
-      
+              
         this._peaP = "♟"; 
         this._torP = "♜";
         this._cavP = "♞";
@@ -40,7 +24,9 @@ class chessController{
         this._primeiroClick = "";
         this._segundoClick = "";
         this._pecaEscolhida = "";
-        this._corPecaEscolhida = "";
+        this._pecaEscolhida2 = "";
+
+        this._movimenta = "";
 
         this.iniciarJogo();
         this.clicarPecas();
@@ -129,16 +115,227 @@ class chessController{
         this._audio.play();        
     }
 
-    corPeca(value){
-        if(this._black.indexOf(value)> -1){
-            return "preta";
-        }else if(this._white.indexOf(value)> -1){
-            return "branca";
+    mesmaCor(peca1,peca2){
+        if(this._black.indexOf(peca1)> -1 && this._black.indexOf(peca2)> -1){
+            return true;
+        }else if(this._white.indexOf(peca1)> -1 && this._white.indexOf(peca2)> -1){
+            return true;
         }else{
-            return "cor não encontrada";
+            return false;
         }
     }
 
+    consisteMovimento(peca1,peca2,casa1,casa2){
+
+        if(!this.mesmaCor(peca1,peca2)) {
+
+            let c1 = casa1.split("");
+            let c2 = casa2.split("");
+
+            let casaFinal = [];
+            let possibilidades = [];
+
+            switch(peca1){
+                case "♙":
+                    
+                    //Possibilidade 1 = move 1 linha
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])+1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(c1[3]);
+
+                    if(peca2 == "vazio"){
+                        possibilidades.push(casaFinal);
+                    } 
+
+                    casaFinal = [];   
+                    
+                    //Possibilidade 2 = move 2 linhas 
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])+2).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(c1[3]);
+
+                    if(c2[1] == 4){
+                    possibilidades.push(casaFinal);
+                    }
+
+                    casaFinal = []; 
+                    
+                    //Possibilidade 3 = move 1 linhas e 1 coluna
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])+1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])+1).toString());
+
+                    if(peca2 != "vazio"){
+                        possibilidades.push(casaFinal);
+                    }    
+                    casaFinal = []; 
+
+                    //Possibilidade 4 = move 1 linhas e 1 
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])+1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])-1).toString());
+
+                    if(peca2 != "vazio"){
+                        possibilidades.push(casaFinal);
+                    }    
+                    casaFinal = []; 
+                break;
+
+                case "♟":
+                    
+                    //Possibilidade 1 = move 1 linha 
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])-1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(c1[3]);
+
+                    if(peca2 == "vazio"){
+                        possibilidades.push(casaFinal);
+                    } 
+
+                    casaFinal = [];   
+                    
+                    //Possibilidade 2 = move 2 linhas 
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])-2).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(c1[3]);
+
+                    if(c2[1] == 5){
+                    possibilidades.push(casaFinal);
+                    }
+
+                    casaFinal = []; 
+                    
+                    //Possibilidade 3 = move 1 linhas e 1 coluna
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])-1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])-1).toString());
+
+                    if(peca2 != "vazio"){
+                        possibilidades.push(casaFinal);
+                    }    
+                    casaFinal = []; 
+
+                    //Possibilidade 4 = move 1 linhas e 1 coluna
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])-1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])+1).toString());
+
+                    if(peca2 != "vazio"){
+                        possibilidades.push(casaFinal);
+                    }    
+                    casaFinal = []; 
+                break;
+
+                case "♘":
+                case "♞":
+                    // Possiblidade 1 = move 1 linha e 2 colunas
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])-1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])-2).toString());
+
+                    if(casaFinal[1]>0 && casaFinal[3]<9){
+                        possibilidades.push(casaFinal);
+                    }
+                    casaFinal = []
+
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])-1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])+2).toString());
+
+                    if(casaFinal[1]>0 && casaFinal[3]<9){
+                        possibilidades.push(casaFinal);
+                    }
+                    casaFinal = []                                      
+
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])+1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])+2).toString());
+
+                    if(casaFinal[1]>0 && casaFinal[3]<9){
+                        possibilidades.push(casaFinal);
+                    }
+                    casaFinal = []
+
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])+1).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])-2).toString());
+
+                    if(casaFinal[1]>0 && casaFinal[3]<9){
+                        possibilidades.push(casaFinal);
+                    }
+                    casaFinal = []
+                    
+                    // Possiblidade 2 = move 2 linhas e 1 coluna
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])-2).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])-1).toString());
+
+                    if(casaFinal[1]>0 && casaFinal[3]<9){
+                        possibilidades.push(casaFinal);
+                    }
+                    casaFinal = []
+
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])-2).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])+1).toString());
+
+                    if(casaFinal[1]>0 && casaFinal[3]<9){
+                        possibilidades.push(casaFinal);
+                    }
+                    casaFinal = []                     
+
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])+2).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])+1).toString());
+
+                    if(casaFinal[1]>0 && casaFinal[3]<9){
+                        possibilidades.push(casaFinal);
+                    }
+                    casaFinal = []
+
+                    casaFinal.push(c1[0]);
+                    casaFinal.push(eval(parseInt(c1[1])+2).toString());
+                    casaFinal.push(c1[2]);
+                    casaFinal.push(eval(parseInt(c1[3])-1).toString());
+
+                    possibilidades.push(casaFinal);
+                    casaFinal = []                    
+
+                break;
+
+            }
+            
+            function testarpossibilidade(currentValue, index, arr) {
+                return currentValue.toString() == c2.toString();
+              }
+               
+            console.log("casa1",casa1);
+            console.log("casa2",casa2);
+            console.log(possibilidades);
+            
+            if(possibilidades.some(testarpossibilidade)){
+                return true;
+            }  
+       
+        }else{
+            return false;
+        }
+    }
    
     clicarPecas(){
 
@@ -148,7 +345,7 @@ class chessController{
 
             this.addEventListenerAll(pc,"click drag mouse", e=> {
                 
-                if(!this._primeiroClick){
+                if(this._primeiroClick == ""){
 
                     this._primeiroClick = pc.id;
 
@@ -156,28 +353,38 @@ class chessController{
                     
                     this._pecaEscolhida = document.getElementById(this._primeiroClick).textContent;
 
-                    this._corPecaEscolhida = this.corPeca(this._pecaEscolhida);
-
                 } else{
 
                     this._segundoClick = pc.id;
 
-                    if(this._corPecaEscolhida == this.corPeca(document.getElementById(this._segundoClick).textContent)){
-
-                        document.getElementById(this._primeiroClick).style.fontSize = "7vh";
-
+                    if(!document.getElementById(this._segundoClick).textContent){
+                        this._pecaEscolhida2 = "vazio";
                     }else{
+                        this._pecaEscolhida2 = document.getElementById(this._segundoClick).textContent;
+                    }
+
+                    this._movimenta = this.consisteMovimento(this._pecaEscolhida,this._pecaEscolhida2,this._primeiroClick,this._segundoClick);
+                                      
+                    if(this._movimenta == true){
 
                         document.getElementById(this._primeiroClick).style.fontSize = "7vh";
                         document.getElementById(this._primeiroClick).innerHTML = "";
                         document.getElementById(this._segundoClick).innerHTML = this._pecaEscolhida;
                         this.playAudio();
-                    }                 
+                        this._primeiroClick = ""; 
+                        this._segundoClick = ""; 
+                        
 
-                    this._primeiroClick = "";                  
+                    }else{
+                        document.getElementById(this._primeiroClick).style.fontSize = "7vh";
+                        this._primeiroClick = ""; 
+                        this._segundoClick = ""; 
+                                   
+                    }                                
 
                 }
-            
+
+                             
             });
 
                         
