@@ -157,7 +157,12 @@ class chessController{
                     casaFinal.push(c1[3]);
 
                     if(c2[1] == 4){
-                    possibilidades.push(casaFinal);
+                        var terceira = document.getElementById(c1[0]+eval(parseInt(c1[1])+1).toString()+c1[2]+c1[3]).textContent;
+
+                        if(terceira == "vazio" || terceira == ""){
+                            possibilidades.push(casaFinal);
+                        }
+                    
                     }
 
                     casaFinal = []; 
@@ -206,7 +211,13 @@ class chessController{
                     casaFinal.push(c1[3]);
 
                     if(c2[1] == 5){
-                    possibilidades.push(casaFinal);
+                    
+                        var sexta = document.getElementById(c1[0]+eval(parseInt(c1[1])-1).toString()+c1[2]+c1[3]).textContent;
+
+                        if(sexta == "vazio" || sexta == ""){
+                            possibilidades.push(casaFinal);
+                        }
+                    
                     }
 
                     casaFinal = []; 
@@ -318,16 +329,304 @@ class chessController{
 
                 break;
 
+                case "♜":
+                case "♖":
+                   
+                    if(c1[1]==c2[1]){
+                        if(c1[3] > c2[3]){
+
+                            for(var i = eval(parseInt(c2[3])+1); i < c1[3]; i++ ){
+                                
+                                var testaCasa = c2[0]+c2[1].toString()+c2[2]+i.toString();
+                                
+                                var contTestaCasa = document.getElementById(testaCasa).textContent;
+
+                                if(contTestaCasa != "vazio" && contTestaCasa != ""){
+                                    return false;
+                                }
+                            }
+                        } else if(c1[3] < c2[3]){
+
+                            for(var i = eval(parseInt(c1[3])+1); i < c2[3]; i++ ){
+                                
+                                var testaCasa = c2[0]+c2[1].toString()+c2[2]+i.toString();
+                                
+                                var contTestaCasa = document.getElementById(testaCasa).textContent;
+
+                                if(contTestaCasa != "vazio" && contTestaCasa != ""){
+                                    return false;
+                                }
+                            }
+                        }
+                    } else if (c1[3]==c2[3]){
+
+                        if(c1[1]> c2[1]){
+
+                            for(var i = eval(parseInt(c2[1])+1); i < c1[1]; i++){
+
+                                var testaCasa = c2[0]+i.toString()+c2[2]+c2[3].toString();
+
+                                var contTestaCasa = document.getElementById(testaCasa).textContent;
+
+                                if(contTestaCasa != "vazio" && contTestaCasa != ""){
+                                    return false;
+                                }
+                            }
+                        }
+                        if(c1[1]< c2[1]){
+
+                            for(var i = eval(parseInt(c1[1])+1); i < c2[1]; i++){
+
+                                var testaCasa = c2[0]+i.toString()+c2[2]+c2[3].toString();
+
+                                var contTestaCasa = document.getElementById(testaCasa).textContent;
+
+                                if(contTestaCasa != "vazio" && contTestaCasa != ""){
+                                    return false;
+                                }
+                            }
+                        }
+
+                    } else{
+                        return false;
+                    }  
+              
+                    if(c1[1]==c2[1] || c1[3] == c2[3]){
+                        possibilidades.push(c2);
+                    }
+
+
+                break;
+
+                case "♝":
+                case "♗":
+
+                    // Linha maior e Coluna maior
+                    if(c1[1]<c2[1] && c1[3]<c2[3]){
+
+                        var difBispo = eval(c2[1] - c1[1]);
+                        
+                        for(var i = 1; i < difBispo; i++){
+
+                            var proximoBispo = document.getElementById(c1[0]+eval(parseInt(c1[1])+i).toString()+c1[2]+eval(parseInt(c1[3])+i).toString());
+
+                            if(proximoBispo.textContent != "vazio" && proximoBispo.textContent != ""){
+                                return false;
+                            }
+                        }
+                    }
+                    // Linha maior e Coluna menor
+                    else if(c1[1]<c2[1] && c1[3]>c2[3]){
+
+                        var difBispo = eval(c2[1] - c1[1]);
+                        
+                        for(var i = 1; i < difBispo; i++){
+
+                            var proximoBispo = document.getElementById(c1[0]+eval(parseInt(c1[1])+i).toString()+c1[2]+eval(parseInt(c1[3])-i).toString());
+
+                            if(proximoBispo.textContent != "vazio" && proximoBispo.textContent != ""){
+                                return false;
+                            }
+                        }
+                    } 
+                    // Linha menor e Coluna menor
+                    else if(c1[1]>c2[1] && c1[3]>c2[3]){
+
+                        var difBispo = eval(c1[1] - c2[1]);
+                        
+                        for(var i = 1; i < difBispo; i++){
+
+                            var proximoBispo = document.getElementById(c1[0]+eval(parseInt(c1[1])-i).toString()+c1[2]+eval(parseInt(c1[3])-i).toString());
+
+                            if(proximoBispo.textContent != "vazio" && proximoBispo.textContent != ""){
+                                return false;
+                            }
+                        }
+                    } 
+                    // Linha menor e Coluna maior
+                    else if(c1[1]>c2[1] && c1[3]<c2[3]){
+
+                        var difBispo = eval(c1[1] - c2[1]);
+                        
+                        for(var i = 1; i < difBispo; i++){
+
+                            var proximoBispo = document.getElementById(c1[0]+eval(parseInt(c1[1])-i).toString()+c1[2]+eval(parseInt(c1[3])+i).toString());
+
+                            if(proximoBispo.textContent != "vazio" && proximoBispo.textContent != ""){
+                                return false;
+                            }
+                        }
+                    } 
+                    else{
+                        return false;
+                    }                                                           
+                
+                    if((parseInt(c1[1])+parseInt(c1[3])) == (parseInt(c2[1])+parseInt(c2[3])) || c1[1]-c1[3] == c2[1]-c2[3]){
+                        possibilidades.push(c2);
+                    }
+
+                break;
+
+                case "♛":
+                case "♕":
+
+                    if(c1[1]==c2[1]){
+                        if(c1[3] > c2[3]){
+
+                            for(var i = eval(parseInt(c2[3])+1); i < c1[3]; i++ ){
+                                
+                                var testaCasa = c2[0]+c2[1].toString()+c2[2]+i.toString();
+                                
+                                var contTestaCasa = document.getElementById(testaCasa).textContent;
+
+                                if(contTestaCasa != "vazio" && contTestaCasa != ""){
+                                    return false;
+                                }
+                            }
+                        } else if(c1[3] < c2[3]){
+
+                            for(var i = eval(parseInt(c1[3])+1); i < c2[3]; i++ ){
+                                
+                                var testaCasa = c2[0]+c2[1].toString()+c2[2]+i.toString();
+                                
+                                var contTestaCasa = document.getElementById(testaCasa).textContent;
+
+                                if(contTestaCasa != "vazio" && contTestaCasa != ""){
+                                    return false;
+                                }
+                            }
+                        }
+                    } else if (c1[3]==c2[3]){
+
+                        if(c1[1]> c2[1]){
+
+                            for(var i = eval(parseInt(c2[1])+1); i < c1[1]; i++){
+
+                                var testaCasa = c2[0]+i.toString()+c2[2]+c2[3].toString();
+
+                                var contTestaCasa = document.getElementById(testaCasa).textContent;
+
+                                if(contTestaCasa != "vazio" && contTestaCasa != ""){
+                                    return false;
+                                }
+                            }
+                        }
+                        if(c1[1]< c2[1]){
+
+                            for(var i = eval(parseInt(c1[1])+1); i < c2[1]; i++){
+
+                                var testaCasa = c2[0]+i.toString()+c2[2]+c2[3].toString();
+
+                                var contTestaCasa = document.getElementById(testaCasa).textContent;
+
+                                if(contTestaCasa != "vazio" && contTestaCasa != ""){
+                                    return false;
+                                }
+                            }
+                        }
+
+                    }   
+              
+                    // Linha maior e Coluna maior
+                    else if(c1[1]<c2[1] && c1[3]<c2[3]){
+
+                        var difBispo = eval(c2[1] - c1[1]);
+                        
+                        for(var i = 1; i < difBispo; i++){
+
+                            var proximoBispo = document.getElementById(c1[0]+eval(parseInt(c1[1])+i).toString()+c1[2]+eval(parseInt(c1[3])+i).toString());
+
+                            if(proximoBispo.textContent != "vazio" && proximoBispo.textContent != ""){
+                                return false;
+                            }
+                        }
+                    }
+                    // Linha maior e Coluna menor
+                    else if(c1[1]<c2[1] && c1[3]>c2[3]){
+
+                        var difBispo = eval(c2[1] - c1[1]);
+                        
+                        for(var i = 1; i < difBispo; i++){
+
+                            var proximoBispo = document.getElementById(c1[0]+eval(parseInt(c1[1])+i).toString()+c1[2]+eval(parseInt(c1[3])-i).toString());
+
+                            if(proximoBispo.textContent != "vazio" && proximoBispo.textContent != ""){
+                                return false;
+                            }
+                        }
+                    } 
+                    // Linha menor e Coluna menor
+                    else if(c1[1]>c2[1] && c1[3]>c2[3]){
+
+                        var difBispo = eval(c1[1] - c2[1]);
+                        
+                        for(var i = 1; i < difBispo; i++){
+
+                            var proximoBispo = document.getElementById(c1[0]+eval(parseInt(c1[1])-i).toString()+c1[2]+eval(parseInt(c1[3])-i).toString());
+
+                            if(proximoBispo.textContent != "vazio" && proximoBispo.textContent != ""){
+                                return false;
+                            }
+                        }
+                    } 
+                    // Linha menor e Coluna maior
+                    else if(c1[1]>c2[1] && c1[3]<c2[3]){
+
+                        var difBispo = eval(c1[1] - c2[1]);
+                        
+                        for(var i = 1; i < difBispo; i++){
+
+                            var proximoBispo = document.getElementById(c1[0]+eval(parseInt(c1[1])-i).toString()+c1[2]+eval(parseInt(c1[3])+i).toString());
+
+                            if(proximoBispo.textContent != "vazio" && proximoBispo.textContent != ""){
+                                return false;
+                            }
+                        }
+                    } 
+                    
+                    if(c1[1]==c2[1] || c1[3] == c2[3]){
+                        possibilidades.push(c2);
+                    } else if((parseInt(c1[1])+parseInt(c1[3])) == (parseInt(c2[1])+parseInt(c2[3])) || c1[1]-c1[3] == c2[1]-c2[3]){
+                        possibilidades.push(c2);
+                    }
+
+                break;
+
+                case this._reiB:
+                case this._reiP:
+
+                    if(parseInt(c1[1])+1 == parseInt(c2[1]) && parseInt(c1[3])-1 == parseInt(c2[3])){
+                        possibilidades.push(c2);
+                    } 
+                    else if(parseInt(c1[1])+1 == parseInt(c2[1]) && parseInt(c1[3]) == parseInt(c2[3])){
+                        possibilidades.push(c2);
+                    } 
+                    else if(parseInt(c1[1])+1 == parseInt(c2[1]) && parseInt(c1[3])+1 == parseInt(c2[3])){
+                        possibilidades.push(c2);
+                    }
+                    else if(parseInt(c1[1]) == parseInt(c2[1]) && parseInt(c1[3])-1 == parseInt(c2[3])){
+                        possibilidades.push(c2);
+                    }
+                    else if(parseInt(c1[1]) == parseInt(c2[1]) && parseInt(c1[3])+1 == parseInt(c2[3])){
+                        possibilidades.push(c2);
+                    }
+                    else if(parseInt(c1[1])-1 == parseInt(c2[1]) && parseInt(c1[3])-1 == parseInt(c2[3])){
+                        possibilidades.push(c2);
+                    }
+                    else if(parseInt(c1[1])-1 == parseInt(c2[1]) && parseInt(c1[3]) == parseInt(c2[3])){
+                        possibilidades.push(c2);
+                    } 
+                    else if(parseInt(c1[1])-1 == parseInt(c2[1]) && parseInt(c1[3])+1 == parseInt(c2[3])){
+                        possibilidades.push(c2);
+                    }                                                                                  
+
+                break;
             }
             
             function testarpossibilidade(currentValue, index, arr) {
                 return currentValue.toString() == c2.toString();
               }
-               
-            console.log("casa1",casa1);
-            console.log("casa2",casa2);
-            console.log(possibilidades);
-            
+                           
             if(possibilidades.some(testarpossibilidade)){
                 return true;
             }  
