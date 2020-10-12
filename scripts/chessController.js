@@ -652,6 +652,14 @@ class chessController{
                     
                     this._pecaEscolhida = document.getElementById(this._primeiroClick).textContent;
 
+                    if(this._pecaEscolhida == "vazio" || this._pecaEscolhida == "" || this._pecaEscolhida == " "){
+                    
+                        document.getElementById(this._primeiroClick).style.fontSize = "7vh";
+                        this._primeiroClick = ""; 
+                        this._segundoClick = ""; 
+                               
+                    } 
+
                 } else{
 
                     this._segundoClick = pc.id;
@@ -669,6 +677,9 @@ class chessController{
                         document.getElementById(this._primeiroClick).style.fontSize = "7vh";
                         document.getElementById(this._primeiroClick).innerHTML = "";
                         document.getElementById(this._segundoClick).innerHTML = this._pecaEscolhida;
+
+                        this.peaoNaUltima(this._pecaEscolhida,this._segundoClick);
+
                         this.playAudio();
                         this._primeiroClick = ""; 
                         this._segundoClick = ""; 
@@ -705,5 +716,56 @@ class chessController{
         });
     }
 
+    peaoNaUltima(peca,casa){
 
+        var elemento = document.createElement("div");
+        var elemento1 = document.createElement("div");
+        var elemento2 = document.createElement("div");
+        var elemento3 = document.createElement("div");
+        var elemento4 = document.createElement("div");
+
+        var divPrincipal = document.getElementById("container");
+
+        elemento.setAttribute("id","boxPeao");
+        elemento1.setAttribute("id","boxP1");
+        elemento2.setAttribute("id","boxP2");
+        elemento3.setAttribute("id","boxP3");
+        elemento4.setAttribute("id","boxP4");
+
+        if(peca == this._peaP || peca == this._peaB){
+            if(casa.indexOf("l1")>-1 || casa.indexOf("l8")>-1){
+
+                document.body.insertBefore(elemento,divPrincipal);
+                elemento.insertAdjacentElement("beforeend",elemento1);
+                elemento.insertAdjacentElement("beforeend",elemento2);
+                elemento.insertAdjacentElement("beforeend",elemento3);
+                elemento.insertAdjacentElement("beforeend",elemento4);
+
+                if(peca == this._peaP){
+                    elemento1.textContent = this._raiP;
+                    elemento2.textContent = this._torP;
+                    elemento3.textContent = this._bisP;
+                    elemento4.textContent = this._cavP;
+                }else if(peca == this._peaB){
+                    elemento1.textContent = this._raiB;
+                    elemento2.textContent = this._torB;
+                    elemento3.textContent = this._bisB;
+                    elemento4.textContent = this._cavB;
+                }
+
+                let escolha = document.querySelectorAll("#boxPeao > div");
+
+                escolha.forEach((esc, index)=>{
+
+                    this.addEventListenerAll(esc,"click drag mouse", e=> {
+
+                       document.getElementById(casa).innerHTML = document.getElementById(esc.id).innerHTML;
+            
+                       elemento.remove();
+
+                    });
+                });
+            }
+        }
+    }
 }
